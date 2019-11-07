@@ -1,0 +1,17 @@
+*{
+    margin:0;
+    padding:0;
+}
+.map{
+    width: 500px;
+    height: 500px;
+    background: black;
+    position: relative;
+}
+.tank{
+    width: 20px;
+    height: 20px;
+    background: green;
+    position: absolute;
+    display: inline-block;
+}
