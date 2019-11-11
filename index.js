@@ -9,13 +9,18 @@ class Tank {
             this.tank.style.top = `${y}px`;
             this.canShot = true;
             document.querySelector('.map').appendChild(this.tank);
+            setInterval(() => {
+                if (map.hasBullet(this.tank.offsetLeft, this.tank.offsetTop)) {
+                    this.beFired();
+                }
+            }, 10)
             return true;
         }
         return false
     }
     fire() {
         if (!this.canShot) return;
-        new Bullet(this.dirc, this.tank.offsetLeft+13, this.tank.offsetTop+13);
+        new Bullet(this.dirc, this.tank.offsetLeft + 13, this.tank.offsetTop + 13);
         this.canShot = false;
         setTimeout(() => {
             this.canShot = true;
@@ -60,6 +65,14 @@ class Tank {
                 break
         }
     }
+    beFired() {
+        let w = this.tank.offsetHeight;
+        if (w == 10) {
+            this.ruin();
+        }
+        this.tank.style.height = `${w-10}px`;
+        console.log(1)
+    }
     autoMove() {
         let t;
         setInterval(() => {
@@ -72,6 +85,9 @@ class Tank {
             }, 50);
         }, 2000)
     }
+    ruin() {
+        document.querySelector('.map').removeChild(this.tank);
+    }
 }
 
 class Bullet {
@@ -83,6 +99,7 @@ class Bullet {
         document.querySelector('.map').appendChild(this.bullet)
         this.dirc = dirc;
         this.flag = 0;
+        bulletArray.push(this);
         setInterval(() => {
             this.move();
         }, 20);
@@ -123,6 +140,7 @@ class Bullet {
     }
     ruin() {
         if (!this.flag) {
+            bulletArray.splice(bulletArray.findIndex(item => item == this.bullet), 1)
             document.querySelector('.map').removeChild(this.bullet);
         }
         this.flag = 1;
@@ -143,6 +161,17 @@ class Map {
         }
         return false;
     }
+    hasBullet(x, y) {
+        for (let item of bulletArray) {
+            let itemX = item.bullet.offsetLeft;
+            let itemY = item.bullet.offsetTop;
+            if (x >= itemX - 10 && x <= itemX + 10 && y >= itemY - 10 && y <= itemY + 10){
+                item.ruin()
+                return true;
+            }
+        }
+        return false;
+    }
 }
 class MapBlock {
     constructor(x, y) {
@@ -154,15 +183,15 @@ class MapBlock {
     }
 }
 
-function randNum(){
-    return Math.floor(Math.random()*(760-40+1)+40);
+function randNum() {
+    return Math.floor(Math.random() * (760 - 40 + 1) + 40);
 }
 let map = new Map([
     [100, 175],
     [177, 333],
     [400, 400],
     [440, 400],
-    [455,200],
+    [455, 200],
     [560, 120],
     [600, 120],
     [640, 120],
@@ -178,18 +207,18 @@ let map = new Map([
     [750, 615],
     [717, 566],
 ]);
-let tankArray=[];
+let tankArray = [];
+let bulletArray = [];
 let tank0 = new Tank(700, 709);
 document.querySelector('.tank').className += " tank0";
-for(let i=0;i<6;){
-    let t=new Tank(randNum(), randNum());
-    console.log(t.dirc)
-    if(t.dirc!=undefined){
+for (let i = 0; i < 6;) {
+    let t = new Tank(randNum(), randNum());
+    if (t.dirc != undefined) {
         tankArray.push(t);
         i++;
     }
 }
-tankArray.forEach(item=>{
+tankArray.forEach(item => {
     item.autoMove();
 })
 document.onkeydown = function (event) {
