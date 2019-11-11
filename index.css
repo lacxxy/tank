@@ -2,15 +2,43 @@
     margin:0;
     padding:0;
 }
+html,body{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
 .map{
-    width: 500px;
-    height: 500px;
+    width: 800px;
+    height: 800px;
     background: black;
     position: relative;
+    overflow: hidden;
+    margin:0 auto;
 }
 .tank{
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
+    background: green;
+    position: absolute;
+    display: inline-block;
+    background: url(./images/tank.png);
+    background-size: 100%;
+}
+.tank0{
+    background: url(./images/myTank.png);
+    background-size: 100%;
+}
+.bullet{
+    width: 3px;
+    height: 3px;
+    background: white;
+    position: absolute;
+    display: inline-block;
+}
+.mapBlock{
+    width: 40px;
+    height: 40px;
     background: green;
     position: absolute;
     display: inline-block;
