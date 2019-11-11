@@ -13,14 +13,14 @@ class Tank {
                 if (map.hasBullet(this.tank.offsetLeft, this.tank.offsetTop)) {
                     this.beFired();
                 }
-            }, 10)
+            }, 1)
             return true;
         }
         return false
     }
     fire() {
         if (!this.canShot) return;
-        new Bullet(this.dirc, this.tank.offsetLeft + 13, this.tank.offsetTop + 13);
+        new Bullet(this.dirc, this.tank.offsetLeft , this.tank.offsetTop );
         this.canShot = false;
         setTimeout(() => {
             this.canShot = true;
@@ -71,7 +71,6 @@ class Tank {
             this.ruin();
         }
         this.tank.style.height = `${w-10}px`;
-        console.log(1)
     }
     autoMove() {
         let t;
@@ -94,12 +93,19 @@ class Bullet {
     constructor(dirc, x, y) {
         this.bullet = document.createElement('div');
         this.bullet.className = 'bullet';
-        this.bullet.style.left = `${x}px`;
-        this.bullet.style.top = `${y}px`;
+        let X,Y;
+        switch(dirc){
+            case 'top':X=x+13;Y=y;break;
+            case 'bottom':X=x+13;Y=y+32;break;
+            case 'left':X=x-5;Y=y+13;break;
+            case 'right':X=x+32;Y=y+13;break;
+        }
+        this.bullet.style.left = `${X}px`;
+        this.bullet.style.top = `${Y}px`;
         document.querySelector('.map').appendChild(this.bullet)
         this.dirc = dirc;
         this.flag = 0;
-        bulletArray.push(this);
+        bulletArray.push(this.bullet);
         setInterval(() => {
             this.move();
         }, 20);
@@ -163,10 +169,9 @@ class Map {
     }
     hasBullet(x, y) {
         for (let item of bulletArray) {
-            let itemX = item.bullet.offsetLeft;
-            let itemY = item.bullet.offsetTop;
-            if (x >= itemX - 10 && x <= itemX + 10 && y >= itemY - 10 && y <= itemY + 10){
-                item.ruin()
+            let itemX = item.offsetLeft;
+            let itemY = item.offsetTop;
+            if (x >= itemX -30 && x <= itemX+2 && y >= itemY-30  && y <= itemY-10){
                 return true;
             }
         }
@@ -210,6 +215,7 @@ let map = new Map([
 let tankArray = [];
 let bulletArray = [];
 let tank0 = new Tank(700, 709);
+let tank1 = new Tank(600, 709);
 document.querySelector('.tank').className += " tank0";
 for (let i = 0; i < 6;) {
     let t = new Tank(randNum(), randNum());
