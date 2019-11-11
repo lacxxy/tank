@@ -7,6 +7,8 @@ class Tank {
             this.tank.className += ` tank`;
             this.tank.style.left = `${x}px`;
             this.tank.style.top = `${y}px`;
+            this.autoMove;
+            this.autoFire;
             this.canShot = true;
             document.querySelector('.map').appendChild(this.tank);
             setInterval(() => {
@@ -20,11 +22,11 @@ class Tank {
     }
     fire() {
         if (!this.canShot) return;
-        new Bullet(this.dirc, this.tank.offsetLeft , this.tank.offsetTop );
+        new Bullet(this.dirc, this.tank.offsetLeft, this.tank.offsetTop);
         this.canShot = false;
-        setTimeout(() => {
+        this.autoFire = setTimeout(() => {
             this.canShot = true;
-        }, 700);
+        }, 500);
     }
     move(dirc) {
         let lnum = this.tank.offsetLeft;
@@ -32,60 +34,63 @@ class Tank {
         this.dirc = dirc;
         switch (dirc) {
             case 'left':
-                if (lnum <= 0) return;
-                if (map.hasBlock(lnum - 3, tnum, 'tank')) {
+                if (lnum <= 4) return;
+                if (map.hasBlock(lnum - 4, tnum, 'tank')) {
                     return;
                 }
-                this.tank.style.left = `${lnum-3}px`;
+                this.tank.style.left = `${lnum-4}px`;
                 this.tank.style.webkitTransform = "rotate(-90deg)";
                 break
             case 'right':
-                if (lnum >= 768) return;
-                if (map.hasBlock(lnum + 3, tnum, 'tank')) {
+                if (lnum >= 766) return;
+                if (map.hasBlock(lnum + 4, tnum, 'tank')) {
                     return;
                 }
-                this.tank.style.left = `${lnum+3}px`;
+                this.tank.style.left = `${lnum+4}px`;
                 this.tank.style.webkitTransform = "rotate(90deg)";
                 break
             case 'top':
-                if (tnum <= 0) return;
-                if (map.hasBlock(lnum, tnum - 3, 'tank')) {
+                if (tnum <= 4) return;
+                if (map.hasBlock(lnum, tnum - 4, 'tank')) {
                     return;
                 }
-                this.tank.style.top = `${tnum-3}px`;
+                this.tank.style.top = `${tnum-4}px`;
                 this.tank.style.webkitTransform = "rotate(0deg)";
                 break
             case 'bottom':
-                if (tnum >= 768) return;
-                if (map.hasBlock(lnum, tnum + 3, 'tank')) {
+                if (tnum >= 766) return;
+                if (map.hasBlock(lnum, tnum + 4, 'tank')) {
                     return;
                 }
-                this.tank.style.top = `${tnum+3}px`;
+                this.tank.style.top = `${tnum+4}px`;
                 this.tank.style.webkitTransform = "rotate(180deg)";
                 break
         }
     }
     beFired() {
         let w = this.tank.offsetHeight;
-        if (w == 10) {
-            this.ruin();
-        }
-        this.tank.style.height = `${w-10}px`;
+        //if (w == 10) {
+        this.canShot = false;
+        this.ruin();
+        //}
+        //this.tank.style.height = `${w-10}px`;
     }
     autoMove() {
         let t;
-        setInterval(() => {
+        this.autoMove = setInterval(() => {
             clearInterval(t);
             let arr = ['top', 'bottom', 'left', 'right'];
             let rand = Math.floor((Math.random() * 4));
             t = setInterval(() => {
                 this.move(arr[rand]);
                 this.fire()
-            }, 50);
+            }, 60);
         }, 2000)
     }
     ruin() {
         document.querySelector('.map').removeChild(this.tank);
+        clearInterval(this.autoMove);
+        clearInterval(this.autoFire)
     }
 }
 
@@ -93,19 +98,31 @@ class Bullet {
     constructor(dirc, x, y) {
         this.bullet = document.createElement('div');
         this.bullet.className = 'bullet';
-        let X,Y;
-        switch(dirc){
-            case 'top':X=x+13;Y=y;break;
-            case 'bottom':X=x+13;Y=y+32;break;
-            case 'left':X=x-5;Y=y+13;break;
-            case 'right':X=x+32;Y=y+13;break;
+        let X, Y;
+        switch (dirc) {
+            case 'top':
+                X = x + 13;
+                Y = y;
+                break;
+            case 'bottom':
+                X = x + 13;
+                Y = y + 32;
+                break;
+            case 'left':
+                X = x - 5;
+                Y = y + 13;
+                break;
+            case 'right':
+                X = x + 32;
+                Y = y + 13;
+                break;
         }
         this.bullet.style.left = `${X}px`;
         this.bullet.style.top = `${Y}px`;
         document.querySelector('.map').appendChild(this.bullet)
         this.dirc = dirc;
         this.flag = 0;
-        bulletArray.push(this.bullet);
+        bulletArray.push(this);
         setInterval(() => {
             this.move();
         }, 20);
@@ -115,32 +132,32 @@ class Bullet {
         let tnum = this.bullet.offsetTop;
         switch (this.dirc) {
             case 'left':
-                if (lnum <= 0 || map.hasBlock(lnum - 3, tnum)) {
+                if (lnum <= 0 || map.hasBlock(lnum - 5, tnum)) {
                     this.ruin();
                     return;
                 }
-                this.bullet.style.left = `${lnum-3}px`;
+                this.bullet.style.left = `${lnum-5}px`;
                 break
             case 'right':
-                if (lnum >= 800 || map.hasBlock(lnum + 3, tnum)) {
+                if (lnum >= 800 || map.hasBlock(lnum + 5, tnum)) {
                     this.ruin();
                     return;
                 }
-                this.bullet.style.left = `${lnum+3}px`;
+                this.bullet.style.left = `${lnum+5}px`;
                 break
             case 'top':
-                if (tnum <= 0 || map.hasBlock(lnum, tnum - 3)) {
+                if (tnum <= 0 || map.hasBlock(lnum, tnum - 5)) {
                     this.ruin();
                     return;
                 }
-                this.bullet.style.top = `${tnum-3}px`;
+                this.bullet.style.top = `${tnum-5}px`;
                 break
             case 'bottom':
-                if (tnum >= 800 || map.hasBlock(lnum, tnum + 3)) {
+                if (tnum >= 800 || map.hasBlock(lnum, tnum + 5)) {
                     this.ruin();
                     return;
                 }
-                this.bullet.style.top = `${tnum+3}px`;
+                this.bullet.style.top = `${tnum+5}px`;
                 break
         }
     }
@@ -169,9 +186,10 @@ class Map {
     }
     hasBullet(x, y) {
         for (let item of bulletArray) {
-            let itemX = item.offsetLeft;
-            let itemY = item.offsetTop;
-            if (x >= itemX -30 && x <= itemX+2 && y >= itemY-30  && y <= itemY-10){
+            let itemX = item.bullet.offsetLeft;
+            let itemY = item.bullet.offsetTop;
+            if (x >= itemX - 30 && x <= itemX + 2 && y >= itemY - 30 && y <= itemY - 2) {
+                item.ruin()
                 return true;
             }
         }
@@ -215,15 +233,15 @@ let map = new Map([
 let tankArray = [];
 let bulletArray = [];
 let tank0 = new Tank(700, 709);
-let tank1 = new Tank(600, 709);
 document.querySelector('.tank').className += " tank0";
-for (let i = 0; i < 6;) {
+for (let i = 0; i < 7;) {
     let t = new Tank(randNum(), randNum());
     if (t.dirc != undefined) {
         tankArray.push(t);
         i++;
     }
 }
+
 tankArray.forEach(item => {
     item.autoMove();
 })
