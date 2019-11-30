@@ -1,205 +1,3 @@
-class Tank {
-    constructor(x, y) {
-        if (!map.hasBlock(x, y, 'tank')) {
-            this.dirc = 'top';
-            this.tank = document.createElement('div');
-            this.tank.className += `tank`;
-            this.tank.className += ` tank`;
-            this.tank.style.left = `${x}px`;
-            this.tank.style.top = `${y}px`;
-            this.Move;
-            this.Fire;
-            this.canShot = true;
-            document.querySelector('.map').appendChild(this.tank);
-            this.judge=setInterval(() => {
-                if (map.hasBullet(this.tank.offsetLeft, this.tank.offsetTop)) {
-                    this.beFired();
-                }
-            }, 0)
-            return true;
-        }
-        return false
-    }
-    fire() {
-        if (!this.canShot) return;
-        new Bullet(this.dirc, this.tank.offsetLeft, this.tank.offsetTop,this);
-        this.canShot = false;      
-    }
-    move(dirc) {
-        let lnum = this.tank.offsetLeft;
-        let tnum = this.tank.offsetTop;
-        this.dirc = dirc;
-        switch (dirc) {
-            case 'left':
-                if (lnum <= 6) return;
-                if (map.hasBlock(lnum - 6, tnum, 'tank')) {
-                    return;
-                }
-                this.tank.style.left = `${lnum-6}px`;
-                this.tank.style.webkitTransform = "rotate(-90deg)";
-                break
-            case 'right':
-                if (lnum >= 760) return;
-                if (map.hasBlock(lnum + 6, tnum, 'tank')) {
-                    return;
-                }
-                this.tank.style.left = `${lnum+6}px`;
-                this.tank.style.webkitTransform = "rotate(90deg)";
-                break
-            case 'top':
-                if (tnum <= 6) return;
-                if (map.hasBlock(lnum, tnum - 6, 'tank')) {
-                    return;
-                }
-                this.tank.style.top = `${tnum-6}px`;
-                this.tank.style.webkitTransform = "rotate(0deg)";
-                break
-            case 'bottom':
-                if (tnum >= 760) return;
-                if (map.hasBlock(lnum, tnum + 6, 'tank')) {
-                    return;
-                }
-                this.tank.style.top = `${tnum+6}px`;
-                this.tank.style.webkitTransform = "rotate(180deg)";
-                break
-        }
-    }
-    beFired() {
-        let w = this.tank.offsetHeight;
-        //if (w == 10) {
-        this.ruin();
-        //}
-        //this.tank.style.height = `${w-10}px`;
-    }
-    autoMove() {
-        let t;
-        this.Move = setInterval(() => {
-            clearInterval(t);
-            let arr = ['top', 'bottom', 'left', 'right'];
-            let rand = Math.floor((Math.random() * 4));
-            t = setInterval(() => {
-                this.move(arr[rand]);
-            }, 70);
-        }, 2000)
-        this.Fire=setInterval(()=>{
-            this.fire()
-        },1000)
-    }
-    ruin() {
-        this.canShot=false;
-        this.judge=null;
-        clearInterval(this.Move);
-        clearInterval(this.Fire);
-        console.log(this.tank)
-        document.querySelector('.map').removeChild(this.tank);
-    }
-}
-
-class Bullet {
-    constructor(dirc, x, y,father) {
-        console.log(father)
-        this.bullet = document.createElement('div');
-        this.bullet.className = 'bullet';
-        this.father=father;
-        let X, Y;
-        switch (dirc) {
-            case 'top':
-                X = x + 13;
-                Y = y;
-                break;
-            case 'bottom':
-                X = x + 13;
-                Y = y + 32;
-                break;
-            case 'left':
-                X = x - 5;
-                Y = y + 13;
-                break;
-            case 'right':
-                X = x + 32;
-                Y = y + 13;
-                break;
-        }
-        this.bullet.style.left = `${X}px`;
-        this.bullet.style.top = `${Y}px`;
-        document.querySelector('.map').appendChild(this.bullet)
-        this.dirc = dirc;
-        this.flag = 0;
-        bulletArray.push(this);
-        setInterval(() => {
-            this.move();
-        }, 20);
-    }
-    move() {
-        let lnum = this.bullet.offsetLeft;
-        let tnum = this.bullet.offsetTop;
-        switch (this.dirc) {
-            case 'left':
-                if (lnum <= 0 || map.hasBlock(lnum - 8, tnum)) {
-                    this.ruin();
-                    return;
-                }
-                this.bullet.style.left = `${lnum-8}px`;
-                break
-            case 'right':
-                if (lnum >= 800 || map.hasBlock(lnum + 8, tnum)) {
-                    this.ruin();
-                    return;
-                }
-                this.bullet.style.left = `${lnum+8}px`;
-                break
-            case 'top':
-                if (tnum <= 0 || map.hasBlock(lnum, tnum - 8)) {
-                    this.ruin();
-                    return;
-                }
-                this.bullet.style.top = `${tnum-8}px`;
-                break
-            case 'bottom':
-                if (tnum >= 800 || map.hasBlock(lnum, tnum + 8)) {
-                    this.ruin();
-                    return;
-                }
-                this.bullet.style.top = `${tnum+8}px`;
-                break
-        }
-    }
-    ruin() {
-        if (!this.flag) {
-            bulletArray.splice(bulletArray.findIndex(item => item == this.bullet), 1)
-            document.querySelector('.map').removeChild(this.bullet);
-            this.father.canShot=true
-        }
-        this.flag = 1;
-    }
-}
-
-class Map {
-    constructor(mapArray) {
-        this.map = mapArray;
-        mapArray.map(item => {
-            new MapBlock(item[0], item[1]);
-        })
-    }
-    hasBlock(x, y, type) {
-        let l = (type == 'tank') ? 40 : 5;
-        for (let item of this.map) {
-            if (x >= item[0] - l && x <= item[0] + 60 && y >= item[1] - l && y <= item[1] + 60) return true;
-        }
-        return false;
-    }
-    hasBullet(x, y) {
-        for (let item of bulletArray) {
-            let itemX = item.bullet.offsetLeft;
-            let itemY = item.bullet.offsetTop;
-            if (x >= itemX - 30 && x <= itemX-1 && y >= itemY - 30 && y <= itemY-1) {
-                item.ruin()
-                return true;
-            }
-        }
-        return false;
-    }
-}
 class MapBlock {
     constructor(x, y) {
         this.MapBlock = document.createElement('div');
@@ -211,10 +9,12 @@ class MapBlock {
 }
 
 function randNum() {
-    return Math.floor(Math.random() * (760 - 40 + 1) + 40);
+    return Math.floor(Math.random() * (760 - 340 + 1) + 40);
 }
 let map = new Map([
     [100, 175],
+    [160, 175],
+    [200, 175],
     [177, 333],
     [400, 400],
     [440, 400],
@@ -231,24 +31,33 @@ let map = new Map([
     [700, 153],
     [740, 153],
     [421, 755],
-    [750, 615],
-    [717, 566],
+    [650, 470],
+    [650, 510],
+    [650, 615],
+    [650, 556],
 ]);
-let tankArray = [];
 let bulletArray = [];
 let tank0 = new Tank(700, 709);
+tank0.flag = 0;
+let tankArray = [];
 document.querySelector('.tank').className += " tank0";
-for (let i = 0; i < 5;) {
-    let t = new Tank(randNum(), randNum());
-    if (t.dirc != undefined) {
-        tankArray.push(t);
-        i++;
+for (let i = 0; i < 8;) {
+    let x = randNum();
+    let y = randNum();
+    let t
+    if (!map.hasTank(x, y, null)) {
+        t = new Tank(x, y);
+        if (t.dirc != undefined) {
+            tankArray.push(t);
+            i++;
+        }
     }
 }
 
 tankArray.forEach(item => {
     item.autoMove();
 })
+tankArray.push(tank0)
 document.onkeydown = function (event) {
     var e = event || window.event || arguments.callee.caller.arguments[0];
     if (e && e.keyCode == 40) {
