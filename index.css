@@ -36,7 +36,7 @@ html,body{
     position: absolute;
     display: inline-block;
 }
-.mapBlock{
+.softWall{
     background: url('./images/softWall.png');
     background-size: 100%;
     width: 60px;

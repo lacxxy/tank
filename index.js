@@ -1,43 +1,33 @@
-class MapBlock {
-    constructor(x, y) {
-        this.MapBlock = document.createElement('div');
-        this.MapBlock.className += `mapBlock`;
-        this.MapBlock.style.left = `${x}px`;
-        this.MapBlock.style.top = `${y}px`;
-        document.querySelector('.map').appendChild(this.MapBlock);
-    }
-}
-
 function randNum() {
     return Math.floor(Math.random() * (760 - 340 + 1) + 40);
 }
 let map = new Map([
-    [100, 175],
-    [160, 175],
-    [200, 175],
-    [177, 333],
-    [400, 400],
-    [440, 400],
-    [455, 200],
-    [560, 120],
-    [600, 120],
-    [640, 120],
-    [680, 120],
-    [111, 500],
-    [111, 540],
-    [111, 460],
-    [399, 12],
-    [200, 650],
-    [700, 153],
-    [740, 153],
-    [421, 755],
-    [650, 470],
-    [650, 510],
-    [650, 615],
-    [650, 556],
+    new softWall(100, 175),
+    new softWall(160, 175),
+    new softWall(200, 175),
+    new softWall(177, 333),
+    new softWall(400, 400),
+    new softWall(440, 400),
+    new softWall(455, 200),
+    new softWall(560, 120),
+    new softWall(600, 120),
+    new softWall(640, 120),
+    new softWall(680, 120),
+    new softWall(111, 500),
+    new softWall(111, 540),
+    new softWall(111, 460),
+    new softWall(399, 12),
+    new softWall(200, 650),
+    new softWall(700, 153),
+    new softWall(740, 153),
+    new softWall(421, 755),
+    new softWall(650, 470),
+    new softWall(650, 510),
+    new softWall(650, 615),
+    new softWall(650, 556),
 ]);
 let bulletArray = [];
-let tank0 = new Tank(700, 709);
+let tank0 = new Mytank(700, 709);
 tank0.flag = 0;
 let tankArray = [];
 document.querySelector('.tank').className += " tank0";

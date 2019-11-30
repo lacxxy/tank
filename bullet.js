@@ -35,6 +35,9 @@ class Bullet {
             if (map.beFired(this.bullet.offsetLeft, this.bullet.offsetTop,this.father.flag)) {
                 this.ruin();
             }
+            if(map.hasBlock(this.bullet.offsetLeft, this.bullet.offsetTop)){
+                this.ruin();
+            }
         }, 0)
     }
     move() {
@@ -42,28 +45,28 @@ class Bullet {
         let tnum = this.bullet.offsetTop;
         switch (this.dirc) {
             case 'left':
-                if (lnum <= 0 || map.hasBlock(lnum - 8, tnum)) {
+                if (lnum <= 0) {
                     this.ruin();
                     return;
                 }
                 this.bullet.style.left = `${lnum-8}px`;
                 break
             case 'right':
-                if (lnum >= 800 || map.hasBlock(lnum + 8, tnum)) {
+                if (lnum >= 800 ) {
                     this.ruin();
                     return;
                 }
                 this.bullet.style.left = `${lnum+8}px`;
                 break
             case 'top':
-                if (tnum <= 0 || map.hasBlock(lnum, tnum - 8)) {
+                if (tnum <= 0 ) {
                     this.ruin();
                     return;
                 }
                 this.bullet.style.top = `${tnum-8}px`;
                 break
             case 'bottom':
-                if (tnum >= 800 || map.hasBlock(lnum, tnum + 8)) {
+                if (tnum >= 800) {
                     this.ruin();
                     return;
                 }
