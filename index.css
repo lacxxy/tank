@@ -1,22 +1,26 @@
-*{
-    margin:0;
-    padding:0;
+* {
+    margin: 0;
+    padding: 0;
 }
-html,body{
+
+html,
+body {
     width: 100vw;
     height: 100vh;
     display: flex;
     align-items: center;
 }
-.map{
+
+.map {
     width: 650px;
     height: 650px;
     background: black;
     position: relative;
     overflow: hidden;
-    margin:0 auto;
+    margin: 0 auto;
 }
-.tank{
+
+.tank {
     width: 40px;
     height: 40px;
     background: green;
@@ -25,25 +29,39 @@ html,body{
     background: url(./images/tank.png);
     background-size: 100%;
 }
-.home{
+
+.home {
     position: absolute;
     display: inline-block;
     width: 30px;
     height: 30px;
     background: red;
 }
-.tank0{
+
+.tree {
+    position: absolute;
+    display: inline-block;
+    z-index: 1000;
+    width: 45px;
+    height: 45px;
+    background: url('./images/tree.jpg');
+    background-size: 100%;
+}
+
+.tank0 {
     background: url(./images/myTank.png);
     background-size: 100%;
 }
-.bullet{
+
+.bullet {
     width: 5px;
     height: 5px;
     background: white;
     position: absolute;
     display: inline-block;
 }
-.softWall{
+
+.softWall {
     background: url('./images/softWall.png');
     background-size: 100%;
     width: 30px;
@@ -51,11 +69,12 @@ html,body{
     position: absolute;
     display: inline-block;
 }
-.hardWall{
-    background: url('./images/hardWall.jpg');
+
+.hardWall {
+    background: url('./images/hardWall.png');
     background-size: 100%;
-    width: 20px;
-    height: 20px;
+    width: 50px;
+    height: 50px;
     position: absolute;
     display: inline-block;
 }

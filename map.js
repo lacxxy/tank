@@ -12,7 +12,7 @@ class Map {
                 }
             }
             else{
-                if (x >= item.hardWall.offsetLeft - l*1.5 && x <= item.hardWall.offsetLeft + 12 && y >= item.hardWall.offsetTop - l*1.5 && y <= item.hardWall.offsetTop + 15) {
+                if (x >= item.hardWall.offsetLeft - l && x <= item.hardWall.offsetLeft + 50 && y >= item.hardWall.offsetTop - l && y <= item.hardWall.offsetTop + 50) {
                     return item;
                 }
             }

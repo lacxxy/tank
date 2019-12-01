@@ -1,6 +1,6 @@
 class Mytank extends Tank{
-    constructor(x, y){
-        super(x,y);
+    constructor(x, y,level){
+        super(x,y,level);
     }
     ruin() {
         tankArray.splice(tankArray.findIndex((item) => item === this), 1);

@@ -1,5 +1,5 @@
 class Tank {
-    constructor(x, y) {
+    constructor(x, y,level) {
         if (!map.hasBlock(x, y, 'tank')) {
             this.dirc = 'top';
             this.tank = document.createElement('div');
@@ -9,7 +9,8 @@ class Tank {
             this.tank.style.top = `${y}px`;
             this.Move;
             this.Fire;
-            this.life=4;
+            this.life=level;
+            this.wholeLife=level;
             this.flag = 1; //0为我方坦克,1为敌方坦克
             this.canShot = true;
             document.querySelector('.map').appendChild(this.tank);
@@ -65,8 +66,10 @@ class Tank {
         if (this.life == 2) {
             this.ruin();
         }
-        this.tank.style.opacity=`0.${this.life*2}`
+        let rate=this.life/this.wholeLife;
+        this.tank.style.opacity=`${rate}`
         this.life--;
+        console.log(this.life)
     }
     autoMove() {
         let t;
