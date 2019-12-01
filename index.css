@@ -9,8 +9,8 @@ html,body{
     align-items: center;
 }
 .map{
-    width: 800px;
-    height: 800px;
+    width: 650px;
+    height: 650px;
     background: black;
     position: relative;
     overflow: hidden;
@@ -24,6 +24,13 @@ html,body{
     display: inline-block;
     background: url(./images/tank.png);
     background-size: 100%;
+}
+.home{
+    position: absolute;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: red;
 }
 .tank0{
     background: url(./images/myTank.png);
@@ -39,8 +46,16 @@ html,body{
 .softWall{
     background: url('./images/softWall.png');
     background-size: 100%;
-    width: 60px;
-    height: 60px;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    display: inline-block;
+}
+.hardWall{
+    background: url('./images/hardWall.jpg');
+    background-size: 100%;
+    width: 20px;
+    height: 20px;
     position: absolute;
     display: inline-block;
 }

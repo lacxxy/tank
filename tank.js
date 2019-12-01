@@ -9,6 +9,7 @@ class Tank {
             this.tank.style.top = `${y}px`;
             this.Move;
             this.Fire;
+            this.life=4;
             this.flag = 1; //0为我方坦克,1为敌方坦克
             this.canShot = true;
             document.querySelector('.map').appendChild(this.tank);
@@ -36,7 +37,7 @@ class Tank {
                 break
             case 'right':
                 this.tank.style.webkitTransform = "rotate(90deg)";
-                if (lnum >= 760) return;
+                if (lnum >= 600) return;
                 if (map.hasBlock(lnum + 7, tnum, 'tank') || map.hasTank(lnum + 7, tnum, this)) {
                     return;
                 }
@@ -52,7 +53,7 @@ class Tank {
                 break
             case 'bottom':
                 this.tank.style.webkitTransform = "rotate(180deg)";
-                if (tnum >= 760) return;
+                if (tnum >= 605) return;
                 if (map.hasBlock(lnum, tnum + 7, 'tank') || map.hasTank(lnum, tnum + 7, this)) {
                     return;
                 }
@@ -61,11 +62,11 @@ class Tank {
         }
     }
     beFired() {
-        let w = this.tank.offsetHeight;
-        if (w <= 20) {
+        if (this.life == 2) {
             this.ruin();
         }
-        this.tank.style.height = `${w-10}px`;
+        this.tank.style.opacity=`0.${this.life*2}`
+        this.life--;
     }
     autoMove() {
         let t;

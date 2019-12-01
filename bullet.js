@@ -32,14 +32,23 @@ class Bullet {
             this.move();
         }, 15);
         this.judge = setInterval(() => {
+            if(Home.beFired(this.bullet.offsetLeft, this.bullet.offsetTop)){
+                this.ruin()
+            }
             if (map.beFired(this.bullet.offsetLeft, this.bullet.offsetTop, this.father.flag)) {
                 this.ruin();
             }
             let item = map.hasBlock(this.bullet.offsetLeft, this.bullet.offsetTop)
-            if (item) {
-                let w = item.softWall.offsetHeight;
+            if (item.softWall!=undefined) {
+                let h = item.softWall.offsetHeight;
+                let w=item.softWall.offsetWidth;
                 item.softWall.style.height = `${w-10}px`;
+                if(w<=30||h<=30){
+                    item.ruin()
+                }
                 this.ruin();
+            }else if(item.hardWall!=undefined){
+                this.ruin()
             }
         }, 0)
     }
@@ -55,7 +64,7 @@ class Bullet {
                 this.bullet.style.left = `${lnum-8}px`;
                 break
             case 'right':
-                if (lnum >= 800) {
+                if (lnum >= 650) {
                     this.ruin();
                     return;
                 }
@@ -69,7 +78,7 @@ class Bullet {
                 this.bullet.style.top = `${tnum-8}px`;
                 break
             case 'bottom':
-                if (tnum >= 800) {
+                if (tnum >= 650) {
                     this.ruin();
                     return;
                 }

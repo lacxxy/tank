@@ -1,37 +1,30 @@
 function randNum() {
-    return Math.floor(Math.random() * (760 - 340 + 1) + 40);
+    return Math.floor(Math.random() * (560 - 50 + 1) + 40);
 }
-let map = new Map([
-    new softWall(100, 175),
-    new softWall(160, 175),
-    new softWall(200, 175),
-    new softWall(177, 333),
-    new softWall(400, 400),
-    new softWall(440, 400),
-    new softWall(455, 200),
-    new softWall(560, 120),
-    new softWall(600, 120),
-    new softWall(640, 120),
-    new softWall(680, 120),
-    new softWall(111, 500),
-    new softWall(111, 540),
-    new softWall(111, 460),
-    new softWall(399, 12),
-    new softWall(200, 650),
-    new softWall(700, 153),
-    new softWall(740, 153),
-    new softWall(421, 755),
-    new softWall(650, 470),
-    new softWall(650, 510),
-    new softWall(650, 615),
-    new softWall(650, 556),
-]);
+let Home=new home(315,620);
+let arr = [];
+arr.push(new softWall(270, 620),new softWall(270, 590),new softWall(360, 620),new softWall(360, 590),new softWall(300, 590),new softWall(330, 590),)
+for (let i = 100; i < 550; i += 135) {
+    for (let j = 100; j < 480; j += 30) {
+        arr.push(new softWall(i, j), new softWall(i + 30, j))
+    }
+}
+arr.push(
+    new hardWall(300, 420),
+    new hardWall(190, 230),
+    new hardWall(300, 80),
+    new hardWall(260, 50),
+    new hardWall(45, 450),
+    new hardWall(440,250),
+    new hardWall(450, 400),
+)
+let map = new Map(arr);
 let bulletArray = [];
-let tank0 = new Mytank(700, 709);
+let tank0 = new Mytank(500, 600);
 tank0.flag = 0;
 let tankArray = [];
 document.querySelector('.tank').className += " tank0";
-for (let i = 0; i < 0;) {
+for (let i = 0; i < 4;) {
     let x = randNum();
     let y = randNum();
     let t

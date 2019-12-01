@@ -2,20 +2,19 @@ class Map {
     constructor(mapArray) {
         this.map = mapArray;
     }
-    ifHit(x, y, type) {
-        if (x <= 0 || x >= 800) return false;
-        if (y <= 0 || y >= 800) return false;
-        if (this.hasBlock(x, y, type)) {
-            return false;
-        }
-        return true;
-    }
     hasBlock(x, y, type) {
-        let l = (type == 'tank') ? 40 : 5;
+        let l = (type == 'tank') ? 40 : 12;
         for (let item of this.map) {
-            if (x >= item.softWall.offsetLeft - l && x <= item.softWall.offsetLeft + item.softWall.style.width && y >= item.softWall.offsetTop - l && y <= item.softWall.offsetTop + item.softWall.style.height) {
-                console.log(1)
-                return item;
+            let flag = 0;
+            if (item.softWall != undefined) {
+                if (x >= item.softWall.offsetLeft - l && x <= item.softWall.offsetLeft + item.softWall.offsetWidth && y >= item.softWall.offsetTop - l && y <= item.softWall.offsetTop + item.softWall.offsetHeight) {
+                    return item;
+                }
+            }
+            else{
+                if (x >= item.hardWall.offsetLeft - l*1.5 && x <= item.hardWall.offsetLeft + 12 && y >= item.hardWall.offsetTop - l*1.5 && y <= item.hardWall.offsetTop + 15) {
+                    return item;
+                }
             }
         }
         return false;
