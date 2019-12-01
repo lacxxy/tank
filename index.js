@@ -31,7 +31,7 @@ let tank0 = new Mytank(700, 709);
 tank0.flag = 0;
 let tankArray = [];
 document.querySelector('.tank').className += " tank0";
-for (let i = 0; i < 8;) {
+for (let i = 0; i < 0;) {
     let x = randNum();
     let y = randNum();
     let t

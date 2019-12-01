@@ -13,10 +13,9 @@ class Map {
     hasBlock(x, y, type) {
         let l = (type == 'tank') ? 40 : 5;
         for (let item of this.map) {
-            if (x >= item.softWall.offsetLeft - l && x <= item.softWall.offsetLeft + 60 && y >= item.softWall.offsetTop - l && y <= item.softWall.offsetTop + 60) {
-                let w = item.softWall.offsetHeight;
-                item.softWall.style.height=`${w-10}px`;
-                return true;
+            if (x >= item.softWall.offsetLeft - l && x <= item.softWall.offsetLeft + item.softWall.style.width && y >= item.softWall.offsetTop - l && y <= item.softWall.offsetTop + item.softWall.style.height) {
+                console.log(1)
+                return item;
             }
         }
         return false;

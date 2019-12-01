@@ -7,7 +7,7 @@ class Bullet {
         switch (dirc) {
             case 'top':
                 X = x + 18;
-                Y = y-20;
+                Y = y - 20;
                 break;
             case 'bottom':
                 X = x + 18;
@@ -31,11 +31,14 @@ class Bullet {
         setInterval(() => {
             this.move();
         }, 15);
-        this.judge=setInterval(() => {
-            if (map.beFired(this.bullet.offsetLeft, this.bullet.offsetTop,this.father.flag)) {
+        this.judge = setInterval(() => {
+            if (map.beFired(this.bullet.offsetLeft, this.bullet.offsetTop, this.father.flag)) {
                 this.ruin();
             }
-            if(map.hasBlock(this.bullet.offsetLeft, this.bullet.offsetTop)){
+            let item = map.hasBlock(this.bullet.offsetLeft, this.bullet.offsetTop)
+            if (item) {
+                let w = item.softWall.offsetHeight;
+                item.softWall.style.height = `${w-10}px`;
                 this.ruin();
             }
         }, 0)
@@ -52,14 +55,14 @@ class Bullet {
                 this.bullet.style.left = `${lnum-8}px`;
                 break
             case 'right':
-                if (lnum >= 800 ) {
+                if (lnum >= 800) {
                     this.ruin();
                     return;
                 }
                 this.bullet.style.left = `${lnum+8}px`;
                 break
             case 'top':
-                if (tnum <= 0 ) {
+                if (tnum <= 0) {
                     this.ruin();
                     return;
                 }
