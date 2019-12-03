@@ -3,6 +3,7 @@ class Bullet {
         this.bullet = document.createElement('div');
         this.bullet.className = 'bullet';
         this.father = father;
+        this.speed=this.father.speed;
         let X, Y;
         switch (dirc) {
             case 'top':
@@ -61,28 +62,28 @@ class Bullet {
                     this.ruin();
                     return;
                 }
-                this.bullet.style.left = `${lnum-8}px`;
+                this.bullet.style.left = `${lnum-this.speed}px`;
                 break
             case 'right':
                 if (lnum >= 650) {
                     this.ruin();
                     return;
                 }
-                this.bullet.style.left = `${lnum+8}px`;
+                this.bullet.style.left = `${lnum+this.speed}px`;
                 break
             case 'top':
                 if (tnum <= 0) {
                     this.ruin();
                     return;
                 }
-                this.bullet.style.top = `${tnum-8}px`;
+                this.bullet.style.top = `${tnum-this.speed}px`;
                 break
             case 'bottom':
                 if (tnum >= 650) {
                     this.ruin();
                     return;
                 }
-                this.bullet.style.top = `${tnum+8}px`;
+                this.bullet.style.top = `${tnum+this.speed}px`;
                 break
         }
     }

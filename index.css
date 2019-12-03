@@ -9,6 +9,33 @@ body {
     height: 100vh;
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+#left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 50px;
+}
+
+.now {
+    font-size: 50px;
+}
+
+#restart {
+    margin-top: 50px;
+    width: 200px;
+    height: 45px;
+    background-color: rgba(51, 159, 220, 1);
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(170, 170, 170, 1);
+    border-radius: 3px;
+    font-size: 20px;
+    color: #ffffff;
+    cursor: pointer;
 }
 
 .map {
@@ -17,7 +44,6 @@ body {
     background: black;
     position: relative;
     overflow: hidden;
-    margin: 0 auto;
 }
 
 .tank {

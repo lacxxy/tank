@@ -7,6 +7,7 @@ class Tank {
             this.tank.className += ` tank`;
             this.tank.style.left = `${x}px`;
             this.tank.style.top = `${y}px`;
+            this.speed=level*1.3+1;
             this.Move;
             this.Fire;
             this.life=level;
@@ -30,35 +31,35 @@ class Tank {
         switch (dirc) {
             case 'left':
                 this.tank.style.webkitTransform = "rotate(-90deg)";
-                if (lnum <= 7) return;
-                if (map.hasBlock(lnum - 7, tnum, 'tank') || map.hasTank(lnum - 7, tnum, this)) {
+                if (lnum <= this.speed) return;
+                if (map.hasBlock(lnum - this.speed, tnum, 'tank') || map.hasTank(lnum - this.speed, tnum, this)) {
                     return;
                 }
-                this.tank.style.left = `${lnum-7}px`;
+                this.tank.style.left = `${lnum-this.speed}px`;
                 break
             case 'right':
                 this.tank.style.webkitTransform = "rotate(90deg)";
                 if (lnum >= 600) return;
-                if (map.hasBlock(lnum + 7, tnum, 'tank') || map.hasTank(lnum + 7, tnum, this)) {
+                if (map.hasBlock(lnum + this.speed, tnum, 'tank') || map.hasTank(lnum + this.speed, tnum, this)) {
                     return;
                 }
-                this.tank.style.left = `${lnum+7}px`;
+                this.tank.style.left = `${lnum+this.speed}px`;
                 break
             case 'top':
                 this.tank.style.webkitTransform = "rotate(0deg)";
-                if (tnum <= 7) return;
-                if (map.hasBlock(lnum, tnum - 7, 'tank') || map.hasTank(lnum, tnum - 7, this)) {
+                if (tnum <= this.speed) return;
+                if (map.hasBlock(lnum, tnum - this.speed, 'tank') || map.hasTank(lnum, tnum - this.speed, this)) {
                     return;
                 }
-                this.tank.style.top = `${tnum-7}px`;
+                this.tank.style.top = `${tnum-this.speed}px`;
                 break
             case 'bottom':
                 this.tank.style.webkitTransform = "rotate(180deg)";
                 if (tnum >= 605) return;
-                if (map.hasBlock(lnum, tnum + 7, 'tank') || map.hasTank(lnum, tnum + 7, this)) {
+                if (map.hasBlock(lnum, tnum + this.speed, 'tank') || map.hasTank(lnum, tnum + this.speed, this)) {
                     return;
                 }
-                this.tank.style.top = `${tnum+7}px`;
+                this.tank.style.top = `${tnum+this.speed}px`;
                 break
         }
     }
@@ -69,7 +70,6 @@ class Tank {
         let rate=this.life/this.wholeLife;
         this.tank.style.opacity=`${rate}`
         this.life--;
-        console.log(this.life)
     }
     autoMove() {
         let t;
@@ -83,7 +83,7 @@ class Tank {
         }, 2000)
         this.Fire = setInterval(() => {
             this.fire()
-        }, 1000)
+        }, 1500)
     }
     ruin() {
         tankArray.splice(tankArray.findIndex((item) => item === this), 1);

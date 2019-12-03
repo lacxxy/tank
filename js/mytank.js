@@ -1,6 +1,7 @@
 class Mytank extends Tank{
     constructor(x, y,level){
         super(x,y,level);
+        this.speed=7
     }
     ruin() {
         tankArray.splice(tankArray.findIndex((item) => item === this), 1);

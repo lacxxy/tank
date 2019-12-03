@@ -19,9 +19,9 @@ function creatBlock(x, y) {
         new softWall(x, y), new softWall(x + 30, y), new softWall(x, y + 30), new softWall(x + 30, y + 30)
     ];
 }
+let tankNum = 6;
 let level = getQueryVariable("level");
 if (!level) level = 0;
-
 let Home = new home(315, 620);
 let arr = [];
 arr.push(new softWall(270, 620), new softWall(270, 590), new softWall(360, 620), new softWall(360, 590), new softWall(300, 590), new softWall(330, 590), )
@@ -58,6 +58,7 @@ for (let i = 0; i < 6;) {
 for (let i = 0; i < 6;) {
     let x = randNum();
     let y = randNum();
+    if (y > 300) continue;
     let t
     if (!map.hasTank(x, y, null)) {
         t = new Tank(x, y, parseInt(level) + 4);
@@ -74,13 +75,29 @@ tankArray.forEach(item => {
 tankArray.push(tank0)
 
 setInterval(() => {
-    if (tankArray.length == 1) {
-        if(level==5){
-            alert("恭喜通关!");
-            window.location.href="https://www.ebay.com/usr/ilovecao_81"
+    if (tankArray.length==1) {
+        if (level == 5) {
+            alert("恭喜通关!!!!!");
+            window.location.href = window.location.pathname;
         }
-        alert("恭喜!")
         window.location.href = `${window.location.pathname}?level=${parseInt(level)+1}`
+    }
+    if (tankArray.length < 7&&tankNum <=10) {
+        for (let i = 0; i < 1;) {
+            let x = randNum();
+            let y = randNum();
+            if (y > 300) continue;
+            let t;
+            if (!map.hasTank(x, y, null)) {
+                t = new Tank(x, y, parseInt(level) + 4);
+                if (t.dirc != undefined) {
+                    tankArray.push(t);
+                    t.autoMove()
+                    tankNum++;
+                    i++;
+                }
+            }
+        }
     }
 }, 0)
 
@@ -88,7 +105,8 @@ var direction = {
     left: false,
     top: false,
     right: false,
-    bottom: false
+    bottom: false,
+    fire: false
 };
 setInterval(function () {
     if (direction.left) {
@@ -99,14 +117,18 @@ setInterval(function () {
         tank0.move('right')
     } else if (direction.bottom) {
         tank0.move('bottom')
+    } else if (direction.fire) {
+        tank0.fire()
     }
 }, 50);
+
 document.onkeydown = function (event) {
     direction = {
         left: false,
         top: false,
         right: false,
-        bottom: false
+        bottom: false,
+        fire: false,
     };
     var e = event || window.event || arguments.callee.caller.arguments[0];
     if (e && e.keyCode == 40) {
@@ -122,7 +144,7 @@ document.onkeydown = function (event) {
         direction.top = true;
     }
     if (e && e.keyCode == 32) {
-        tank0.fire()
+        direction.fire = true;
     }
 };
 document.onkeyup = function (event) {
@@ -140,6 +162,6 @@ document.onkeyup = function (event) {
         direction.top = false;
     }
     if (e && e.keyCode == 32) {
-        tank0.fire()
+        direction.fire = false;
     }
 }
