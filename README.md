@@ -6,4 +6,4 @@ fzu ood课设,
 
 时间有限较为简陋...
 
-<img src="https://github.com/lacxxy/lacxxy/blob/master/img/Screenshot_20190425-094252_sporter.jpg" width=400>
+<img src="https://github.com/lacxxy/lacxxy/blob/master/img/tank.jpg" width=400>
